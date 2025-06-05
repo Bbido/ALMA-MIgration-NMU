@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nelson Mandela University Library system launch in January 2026 with Ex Libris ALMA and Primo.">
+    <title>NMU Library Launch Timeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(rgba(26, 54, 93, 0.9), rgba(26, 54, 93, 0.9)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0EwdQUplqpS6n4SXSrvfhWW6iIgdQrkx1UQ&s') no-repeat center center/cover, #1A365D; /* Updated NMU background */
+            position: relative;
+        }
+
+        /* Animated background elements */
+        .bg-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .floating-shape {
+            position: absolute;
+            background: linear-gradient(45deg, #FFB51B, #F7931E);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .shape-1 { width: 60px; height: 60px; top: 10%; left: 10%; animation-delay: 0s; }
+        .shape-2 { width: 40px; height: 40px; top: 20%; right: 15%; animation-delay: 2s; }
+        .shape-3 { width: 80px; height: 80px; bottom: 30%; left: 20%; animation-delay: 4s; }
+        .shape-4 { width: 50px; height: 50px; bottom: 20%; right: 10%; animation-delay: 6s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.1; }
+            50% { transform: translateY(-30px) scale(1.2); opacity: 0.2; }
+        }
+
+        .timeline-section {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            color: white;
+            z-index: 2;
+        }
+
+        .logos {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            animation: slideDown 1.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .logo-container:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-img {
+            max-height: 80px; /* Increased for TV visibility */
+            width: auto;
+            display: block;
+        }
+
+        .timeline-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #FFB51B;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 20px rgba(255, 181, 27, 0.5)); }
+            to { filter: drop-shadow(0 0 40px rgba(255, 181, 27, 0.8)); }
+        }
+
+        .timeline-date {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 12px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: slideIn 2s ease-out 0.5s both;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .timeline-message {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #E2E8F0;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 2s ease-out 1s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .system-info {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            animation: slideUp 2s ease-out 1.5s both;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .system-badge {
+            background: linear-gradient(45deg, #F7931E, #FFB51B);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 8px 20px rgba(247, 147, 30, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .system-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(247, 147, 30, 0.4);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            animation: countdownEntry 2s ease-out 2s both;
+        }
+
+        @keyframes countdownEntry {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .countdown-item {
+            background: rgba(26, 54, 93, 0.8);
+            backdrop-filter: blur(15px);
+            padding: 20px 30px;
+            border-radius: 15px;
+            border: 2px solid #FFB51B;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .countdown-item:hover::before {
+            left: 100%;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-color: #F7931E;
+        }
+
+        .countdown-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #F7931E;
+            display: block;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .countdown-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            margin-top: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-cta {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            animation: ctaSlide 2s ease-out 2.5s both;
+        }
+
+        @keyframes ctaSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cta-text {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #FFB51B;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .cta-subtitle {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E2E8F0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .cta-subtitle a {
+            color: #FFB51B;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-subtitle a:hover {
+            color: #F7931E;
+            text-shadow: 0 0 10px rgba(255, 181, 27, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .timeline-title { font-size: 3rem; }
+            .timeline-date { font-size: 2.5rem; }
+            .timeline-message { font-size: 1.5rem; }
+            .system-info { flex-direction: column; align-items: center; gap: 15px; }
+        }
+
+        @media (max-width: 768px) {
+            .timeline-title { font-size: 2.5rem; }
+            .timeline-date { font-size: 2rem; }
+            .timeline-message { font-size: 1.3rem; }
+            .countdown { gap: 15px; }
+            .countdown-item { padding: 15px 20px; }
+            .countdown-number { font-size: 2rem; }
+            .countdown-label { font-size: 1rem; }
+            .cta-text { font-size: 1.5rem; }
+            .cta-subtitle { font-size: 1.1rem; }
+            .logos { 
+                flex-direction: column; 
+                align-items: center; 
+                gap: 15px; 
+                top: 15px; 
+            }
+            .logo-img { max-height: 60px; }
+        }
+
+        @media (max-width: 480px) {
+            .timeline-section { padding: 20px; }
+            .timeline-title { font-size: 2rem; }
+            .timeline-date { font-size: 1.8rem; }
+            .countdown { flex-direction: column; align-items: center; }
+            .countdown-item { width: 120px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+    </div>
+
+    <section class="timeline-section">
+        <div class="logos">
+            <div class="logo-container">
+                <img src="exlibris-logo.png" alt="Ex Libris Logo" class="logo-img" aria-label="Ex Libris Logo">
+            </div>
+            <div class="logo-container">
+                <img src="data:image/png;base64,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" alt="Nelson Mandela University Logo" class="logo-img" aria-label="Nelson Mandela University Logo">
+            </div>
+        </div>
+
+        <h2 class="timeline-title">Launch Timeline</h2>
+        <div class="timeline-date">JANUARY 2026</div>
+        <p class="timeline-message">Get ready for a transformed library experience!</p>
+        
+        <div class="system-info">
+            <div class="system-badge">ALMA System</div>
+            <div class="system-badge">Primo Discovery</div>
+        </div>
+        
+        <div class="countdown" id="countdown">
+            <div class="countdown-item">
+                <span class="countdown-number" id="months">0</span>
+                <span class="countdown-label">Months</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">0</span>
+                <span class="countdown-label">Days</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">0</span>
+                <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">0</span>
+                <span class="countdown-label">Seconds</span>
+            </div>
+        </div>
+
+        <div class="footer-cta">
+            <h3 class="cta-text">Stay Updated!</h3>
+            <p class="cta-subtitle">Follow NMU for news on training, timelines, and new features: <a href="https://x.com/NelsonMandelaUni">@NelsonMandelaUni</a></p>
+        </div>
+    </section>
+
+    <script>
+        function updateCountdown() {
+            const targetDate = new Date('2026-01-01T00:00:00');
+            const now = new Date();
+            const difference = targetDate - now;
+
+            if (difference < 0) {
+                document.querySelectorAll('.countdown-item').forEach(item => {
+                    item.innerHTML = '<span class="countdown-number">🎉</span><span class="countdown-label">Launched!</span>';
+                });
+                return;
+            }
+
+            let months = (targetDate.getFullYear() - now.getFullYear()) * 12 + (targetDate.getMonth() - now.getMonth());
+            if (targetDate.getDate() < now.getDate()) months--;
+            const tempDate = new Date(now.getFullYear(), now.getMonth() + months, now.getDate());
+            const days = Math.floor((targetDate - tempDate) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const seconds = Math.floor((difference % (1000 * 60 * 60)) / 1000);
+
+            const monthsEl = document.getElementById('months');
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const secondsEl = document.getElementById('seconds');
+
+            if (monthsEl) monthsEl.textContent = months;
+            if (daysEl) daysEl.textContent = days;
+            if (hoursEl) hoursEl.textContent = hours;
+            if (secondsEl) secondsEl.textContent = seconds;
+        }
+
+        // Add interactive effects
+        document.querySelectorAll('.countdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.animation = 'none';
+                this.offsetHeight; // Trigger reflow
+                this.style.animation = 'countdownEntry 0.6s ease-out';
+            });
+        });
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
