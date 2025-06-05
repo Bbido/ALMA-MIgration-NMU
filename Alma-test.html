@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alma Training Quiz</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-white min-h-screen text-gray-800">
+  <div class="max-w-2xl mx-auto p-6 mt-10 bg-white rounded-2xl shadow-xl">
+    <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">Alma Staff Training Quiz</h1>
+
+    <div id="user-form" class="space-y-4">
+      <input id="name" type="text" placeholder="Full Name" class="border border-gray-300 rounded p-2 w-full" />
+      <select id="module" class="border border-gray-300 rounded p-2 w-full">
+        <option value="">Select a Module</option>
+        <option value="circulation">Circulation</option>
+        <option value="metadata">Metadata Management</option>
+        <option value="acquisitions">Acquisitions</option>
+      </select>
+      <button onclick="startTest()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full">Start Quiz</button>
+    </div>
+
+    <div id="quiz" class="hidden mt-6">
+      <form id="quiz-form" class="space-y-4"></form>
+      <button onclick="submitQuiz()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full mt-4">Submit</button>
+    </div>
+
+    <div id="result" class="hidden mt-6 text-center text-xl font-semibold text-green-700"></div>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAuRUmFGXUkGQdcEUkEqrZu8G9jtpTpxzY",
+      authDomain: "alma-training-test.firebaseapp.com",
+      projectId: "alma-training-test",
+      storageBucket: "alma-training-test.firebasestorage.app",
+      messagingSenderId: "8207362127",
+      appId: "1:8207362127:web:d991d019fdc7a84463e23a",
+      measurementId: "G-YGWNCQ28TS"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const questionBank = {
+      circulation: [
+        {
+          question: "What is the main function of the Alma Circulation module?",
+          type: "mcq",
+          options: ["Cataloging", "User Management", "Loan and Return of Items", "Acquisitions"],
+          answer: 2
+        },
+        {
+          question: "True or False: Alma supports RFID integration.",
+          type: "boolean",
+          answer: true
+        },
+        {
+          question: "What happens when a recalled item is returned?",
+          type: "mcq",
+          options: ["It goes back to shelf", "It is placed on hold shelf", "It is sent to acquisitions", "Nothing happens"],
+          answer: 1
+        },
+        {
+          question: "True or False: You can set different loan policies for different user groups.",
+          type: "boolean",
+          answer: true
+        }
+      ],
+      metadata: [
+        {
+          question: "What is the purpose of the Metadata Editor in Alma?",
+          type: "mcq",
+          options: ["Creating reports", "Editing bibliographic records", "Managing invoices", "User access"],
+          answer: 1
+        },
+        {
+          question: "True or False: MARC21 is a metadata schema used in Alma.",
+          type: "boolean",
+          answer: true
+        },
+        {
+          question: "Which field in MARC21 contains the title of a resource?",
+          type: "mcq",
+          options: ["245", "100", "650", "500"],
+          answer: 0
+        },
+        {
+          question: "True or False: The Metadata Editor allows for both template and direct editing.",
+          type: "boolean",
+          answer: true
+        }
+      ],
+      acquisitions: [
+        {
+          question: "Which of the following is part of the acquisitions workflow?",
+          type: "mcq",
+          options: ["Loaning books", "Cataloging items", "Ordering and receiving items", "Managing users"],
+          answer: 2
+        },
+        {
+          question: "True or False: Alma can integrate with external vendors for ordering.",
+          type: "boolean",
+          answer: true
+        },
+        {
+          question: "What does the POL stand for in Alma acquisitions?",
+          type: "mcq",
+          options: ["Point of Loan", "Purchase Order Line", "Public Order List", "Product Order Level"],
+          answer: 1
+        },
+        {
+          question: "True or False: You can receive items in Alma without an invoice.",
+          type: "boolean",
+          answer: true
+        }
+      ]
+    };
+
+    let selectedQuestions = [];
+    let selectedModule = "";
+
+    function startTest() {
+      const name = document.getElementById('name').value;
+      selectedModule = document.getElementById('module').value;
+      if (!name || !selectedModule) return alert("Please enter your name and select a module");
+      selectedQuestions = questionBank[selectedModule];
+      document.getElementById('user-form').classList.add('hidden');
+      renderQuiz();
+      document.getElementById('quiz').classList.remove('hidden');
+    }
+
+    function renderQuiz() {
+      const form = document.getElementById('quiz-form');
+      form.innerHTML = '';
+      selectedQuestions.forEach((q, idx) => {
+        const qDiv = document.createElement('div');
+        qDiv.classList.add('mb-4');
+        const qTitle = document.createElement('p');
+        qTitle.classList.add('font-semibold');
+        qTitle.textContent = `${idx + 1}. ${q.question}`;
+        qDiv.appendChild(qTitle);
+
+        if (q.type === 'mcq') {
+          q.options.forEach((opt, optIdx) => {
+            const label = document.createElement('label');
+            label.classList.add('block');
+            label.innerHTML = `<input type="radio" name="q${idx}" value="${optIdx}" class="mr-2"> ${opt}`;
+            qDiv.appendChild(label);
+          });
+        } else if (q.type === 'boolean') {
+          ['true', 'false'].forEach(val => {
+            const label = document.createElement('label');
+            label.classList.add('block');
+            label.innerHTML = `<input type="radio" name="q${idx}" value="${val}" class="mr-2"> ${val}`;
+            qDiv.appendChild(label);
+          });
+        }
+
+        form.appendChild(qDiv);
+      });
+    }
+
+    function submitQuiz() {
+      const name = document.getElementById('name').value;
+      let score = 0;
+      selectedQuestions.forEach((q, idx) => {
+        const ans = document.querySelector(`input[name='q${idx}']:checked`);
+        if (ans) {
+          if (q.type === 'mcq' && parseInt(ans.value) === q.answer) score++;
+          if (q.type === 'boolean' && (ans.value === 'true') === q.answer) score++;
+        }
+      });
+      db.collection("results").add({
+        name,
+        module: selectedModule,
+        score,
+        total: selectedQuestions.length,
+        timestamp: new Date()
+      });
+      document.getElementById('quiz').classList.add('hidden');
+      document.getElementById('result').classList.remove('hidden');
+      document.getElementById('result').innerHTML = `You scored ${score} out of ${selectedQuestions.length} in the ${selectedModule.charAt(0).toUpperCase() + selectedModule.slice(1)} module.`;
+    }
+  </script>
+</body>
+</html>
